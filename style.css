@@ -31,6 +31,30 @@
   --dl-radius-radius-buttonradius: 24px;
   --dl-space-space-oneandhalfunits: 24px;
 }
+
+.results {
+  width: 500px;
+  position: relative;
+  align-items: center;
+}
+
+.results img {
+  width: 400px;
+  height: 400px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.results p {
+  font-family: "Fjalla One", sans-serif;
+  font-size: 30px;
+  font-weight: 1000;
+  font-style: normal;
+  left: 50%;
+  text-align: center;
+}
+
 .button {
   color: var(--dl-color-theme-neutral-dark);
   display: inline-block;

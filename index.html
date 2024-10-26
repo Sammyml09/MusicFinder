@@ -87,7 +87,7 @@
                 <p>
                   <fragment class="home-fragment11">
                     <span class="home-text11 thq-body-large">
-                      Type below an Artist and then the Album
+                      Type below an Artist and Album
                     </span>
                   </fragment>
                 </p>
@@ -116,10 +116,13 @@
             </div>
 
             
-            <div id="results"></div>
+            <div id="results" class="results" style="display:none"></div>
 
             <script>
               function fetchAlbumInfo() {
+                  var initBox = document.getElementById('results');
+                  initBox.style.display = "block";
+
                   var artist = document.getElementById('inputArtist').value;
                   var album = document.getElementById('inputAlbums').value;
                   var query = `https://musicbrainz.org/ws/2/release/?query=release:${album}%20AND%20artist:${artist}&limit=1&fmt=json`;
@@ -145,14 +148,16 @@
                               var releaseID = release.id; // Assuming you get the release ID here
                               var queryImage = `https://coverartarchive.org/release/${releaseID}`;
                               
+                              var butSelectThis = document.getElementById('SelectThis');
+                              butSelectThis.style.display = "block";
                               // Second Query for Image, it's second because it takes longer to recieve
 
                               fetch(queryImage)
                                   .then(responseImage => responseImage.json())
                                   .then(imageData => {
                                       var imageReference = imageData.images[0].thumbnails.small;
-                                      resultsDiv.innerHTML += `<img src="${imageReference}" alt="Album cover">`;
-                                      resultsDiv.innerHTML += queryImage += releaseID
+                                      resultsDiv.innerHTML += `<img src="${imageReference}" alt="Album cover" align="center">`; 
+                                      
                                   })
                                   .catch(error => {
                                       console.error('Error fetching image:', error);
@@ -162,10 +167,20 @@
                       .catch(error => {
                           console.error('Error fetching data:', error);
                       });
+                      
               }
-          </script>
-          
 
+            </script>
+          
+            <div id="SelectThis" style="display:none">
+              <button  class="hero17-button thq-button-filled">
+                <span>
+                  <fragment class="home-fragment10">
+                    <span class="home-text10 thq-body-small">Select Album</span>
+                  </fragment>
+                </span>
+              </button>
+            </div>
 
             <div class="hero17-content2">
               <div
@@ -407,16 +422,6 @@
                   alt="Search by Artist Image"
                   src="https://images.unsplash.com/photo-1502185635613-0a5b2e78efea?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyOTkxMDA2OXw&amp;ixlib=rb-4.0.3&amp;q=80&amp;w=1080"
                   class="features25-image1 thq-img-ratio-16-9"
-                />
-                <img
-                  alt="Search by Album Image"
-                  src="https://images.unsplash.com/photo-1474752651386-dc296d69dc90?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyOTkxMDA3MHw&amp;ixlib=rb-4.0.3&amp;q=80&amp;w=1080"
-                  class="features25-image2 thq-img-ratio-16-9"
-                />
-                <img
-                  alt="Discover New Music Image"
-                  src="https://images.unsplash.com/photo-1610828965045-efd149ad86e0?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3w5MTMyMXwwfDF8cmFuZG9tfHx8fHx8fHx8MTcyOTkxMDA3MHw&amp;ixlib=rb-4.0.3&amp;q=80&amp;w=1080"
-                  class="features25-image3 thq-img-ratio-16-9"
                 />
               </div>
             </div>
