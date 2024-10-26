@@ -80,7 +80,7 @@
                 </p>
               </div>
               <div class="hero17-actions">
-                <button class="hero17-button thq-button-filled">
+                <button onclick="fetchAlbumInfo()" class="hero17-button thq-button-filled">
                   <span>
                     <fragment class="home-fragment10">
                       <span class="home-text10 thq-body-small">Submit</span>
@@ -99,6 +99,32 @@
                 />
               </div>
             </div>
+
+            
+            <div id="results"></div>
+
+            <script>
+
+              function fetchAlbumInfo() {
+                var artist = document.getElementById("inputArtist").value;
+                var album = document.getElementById("inputAlbums").value;
+                var query = 'https://musicbrainz.org/ws/2/release/?query=release:${album}%20AND%20artist:${artist}&fmt=json';
+
+                fetch(query)
+                    .then(response => response.json())
+                    .then(data =>{
+                        var resultsDiv = document.getElementById('results');
+                        resultsDiv.innerHTML = '';
+                        data.releases.forEach(release => {
+                        var releaseInfo = `<p>${release.title} by ${release['artist-credit'][0].artist.name}</p>`;
+                        resultsDiv.innerHTML += releaseInfo;  
+                    })
+                
+              }
+
+            </script>
+
+
             <div class="hero17-content2">
               <div
                 class="hero17-row-container1 thq-animated-group-container-horizontal thq-mask-image-horizontal"
