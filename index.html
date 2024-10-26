@@ -91,11 +91,13 @@
                   type="text"
                   placeholder="Artist"
                   class="inputArtist"
+                  id="inputArtist"
                 />
                 <input
                   type="text"
                   placeholder="Album"
                   class="inputAlbums"
+                  id="inputAlbums"
                 />
               </div>
             </div>
@@ -104,25 +106,26 @@
             <div id="results"></div>
 
             <script>
-
               function fetchAlbumInfo() {
-                var artist = document.getElementById("inputArtist").value;
-                var album = document.getElementById("inputAlbums").value;
-                var query = 'https://musicbrainz.org/ws/2/release/?query=release:${album}%20AND%20artist:${artist}&fmt=json';
-
-                fetch(query)
-                    .then(response => response.json())
-                    .then(data =>{
-                        var resultsDiv = document.getElementById('results');
-                        resultsDiv.innerHTML = '';
-                        data.releases.forEach(release => {
-                        var releaseInfo = `<p>${release.title} by ${release['artist-credit'][0].artist.name}</p>`;
-                        resultsDiv.innerHTML += releaseInfo;  
-                    })
-                
+                  var artist = document.getElementById('inputArtist').value;
+                  var album = document.getElementById('inputAlbums').value;
+                  var query = `https://musicbrainz.org/ws/2/release/?query=release:${album}%20AND%20artist:${artist}&limit=1&fmt=json`;
+      
+                  fetch(query)
+                      .then(response => response.json())
+                      .then(data => {
+                          var resultsDiv = document.getElementById('results');
+                          resultsDiv.innerHTML = '';
+                          data.releases.forEach(release => {
+                              var releaseInfo = `<p>${release.title} by ${release['artist-credit'][0].artist.name}</p>`;
+                              resultsDiv.innerHTML += releaseInfo;
+                          });
+                      })
+                      .catch(error => {
+                          console.error('Error fetching data:', error);
+                      });
               }
-
-            </script>
+          </script>
 
 
             <div class="hero17-content2">
