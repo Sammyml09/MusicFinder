@@ -8,7 +8,20 @@
     <meta property="twitter:card" content="summary_large_image" />
 
     <style data-tag="reset-style-sheet">
-      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+        html {  line-height: 1.15;}
+        body {  margin: 0;}
+        * {  box-sizing: border-box;  border-width: 0;  border-style: solid;}
+        p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}
+        button {  background-color: transparent;}
+        button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}
+        button,select {  text-transform: none;}
+        button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;
+        }button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}
+        button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}
+        a {  color: inherit;  text-decoration: inherit;}
+        input {  padding: 2px 4px;}
+        img {  display: block;}
+        html { scroll-behavior: smooth  }
     </style>
     <style data-tag="default-style-sheet">
       html {
@@ -110,15 +123,40 @@
                   var artist = document.getElementById('inputArtist').value;
                   var album = document.getElementById('inputAlbums').value;
                   var query = `https://musicbrainz.org/ws/2/release/?query=release:${album}%20AND%20artist:${artist}&limit=1&fmt=json`;
-      
+                  
+                  // Adding loading Spinner
+
+                  var resultsDiv = document.getElementById('results');
+                  resultsDiv.innerHTML = '<div class ="loading=spinner"></div>';
+
+
+                  // Initial Query for name and other related information
                   fetch(query)
                       .then(response => response.json())
                       .then(data => {
                           var resultsDiv = document.getElementById('results');
                           resultsDiv.innerHTML = '';
                           data.releases.forEach(release => {
+
+                              // format recieved data and show 
+
                               var releaseInfo = `<p>${release.title} by ${release['artist-credit'][0].artist.name}</p>`;
                               resultsDiv.innerHTML += releaseInfo;
+                              var releaseID = release.id; // Assuming you get the release ID here
+                              var queryImage = `https://coverartarchive.org/release/${releaseID}`;
+                              
+                              // Second Query for Image, it's second because it takes longer to recieve
+
+                              fetch(queryImage)
+                                  .then(responseImage => responseImage.json())
+                                  .then(imageData => {
+                                      var imageReference = imageData.images[0].thumbnails.small;
+                                      resultsDiv.innerHTML += `<img src="${imageReference}" alt="Album cover">`;
+                                      resultsDiv.innerHTML += queryImage += releaseID
+                                  })
+                                  .catch(error => {
+                                      console.error('Error fetching image:', error);
+                                  });
                           });
                       })
                       .catch(error => {
@@ -126,6 +164,7 @@
                       });
               }
           </script>
+          
 
 
             <div class="hero17-content2">
