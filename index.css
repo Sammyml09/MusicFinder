@@ -217,7 +217,6 @@
 }
 .features25-tab-horizontal1 {
   gap: var(--dl-space-space-twounits);
-  cursor: pointer;
   display: flex;
   overflow: hidden;
   align-self: stretch;
@@ -247,7 +246,6 @@
 }
 .features25-tab-horizontal2 {
   gap: var(--dl-space-space-twounits);
-  cursor: pointer;
   display: flex;
   overflow: hidden;
   align-self: stretch;
@@ -277,7 +275,6 @@
 }
 .features25-tab-horizontal3 {
   gap: var(--dl-space-space-twounits);
-  cursor: pointer;
   display: flex;
   overflow: hidden;
   align-self: stretch;
