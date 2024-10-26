@@ -437,12 +437,6 @@
   text-align: center;
   vertical-align: middle;
 }
-.thq-animated-group-container-vertical:hover div {
-  animation-play-state: paused;
-}
-.thq-animated-group-container-horizontal:hover div {
-  animation-play-state: paused;
-}
 .thq-animated-card-bg-2:has([data-animated="true"]:hover) {
   transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(3deg) skew(0deg, 0deg);
 }
