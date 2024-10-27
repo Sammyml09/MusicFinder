@@ -32,6 +32,104 @@
   --dl-space-space-oneandhalfunits: 24px;
 }
 
+
+
+.body {
+  font-family: Arial, sans-serif;
+   /* Replace with your background */
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+
+}
+
+.container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 1100px;
+  background-color: #f8bdbd;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: absolute;
+}
+
+.container h1 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.album-info {
+  background-color: #e09898;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.album-info h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.details {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.top{
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  position: relative;
+  background-color: #f2b0b0;
+}
+
+.rightCollection {
+  width: 45%;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.right{
+  background-color: #f2b0b0;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.left {
+  width: 45%;
+  background-color: #f2b0b0;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.extra-info {
+  background-color: #f2b0b0;
+  padding: 15px;
+  height: 100px;
+  border-radius: 10px;
+}
+
+.footer {
+  margin-top: 40px;
+  padding: 15px;
+  border-radius: 10px;
+  position: absolute;
+}
+
+
+
+.main {
+  background-color: #E65103;
+}
+
 .results {
   width: 500px;
   position: relative;

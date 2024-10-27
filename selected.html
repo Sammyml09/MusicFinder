@@ -4,59 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Finder</title>
+    <link rel="stylesheet" href="./style.css">
+
 </head>
-<body>
-    <h1 id="heading">Testing!!! Woow</h1>
-    
-    <button onclick="searchAlbum()">Hello!</button>
+<body class ="body" onload="searchAlbum()">
 
-        <div id="trackList">
+    <!--Script for Track List--> 
 
-        </div>
-    
-        <script>
-            async function searchAlbum() {
-                var artistSelected = localStorage.getItem('artistSelected');
-                var albumSelected = localStorage.getItem('albumSelected');
-                const albumName = albumSelected;
-                const artistName = artistSelected;
-                const url = `https://musicbrainz.org/ws/2/release/?query=release:${albumName}%20AND%20artist:${artistName}&limit=1&fmt=json`;
-                try {
-                    const response = await fetch(url);
-                    const data = await response.json();
-                    const trackList = document.getElementById('trackList');
-                    trackList.innerHTML = '';
-                    if (data.releases && data.releases.length > 0) {
-                        const releaseId = data.releases[0].id;
-                        const releaseUrl = `https://musicbrainz.org/ws/2/release/${releaseId}?inc=recordings&fmt=json`;
-                        const releaseResponse = await fetch(releaseUrl);
-                        const releaseData = await releaseResponse.json();
-                        
-                        console.log(releaseData);  // Log data to see what is inside
-                        
-                        if (releaseData.title) {
-                            trackList.innerHTML = `<h2>${releaseData.title}</h2>`;
-                            if (releaseData.media && releaseData.media[0].tracks) {
-                                releaseData.media[0].tracks.forEach(track => {
-                                    trackList.innerHTML += `<p>${track.position}. ${track.title}</p>`;
-                                });
+    <script>
+                async function searchAlbum() {
+                    var artistSelected = localStorage.getItem('artistSelected');
+                    var albumSelected = localStorage.getItem('albumSelected');
+                    const albumName = albumSelected;
+                    const artistName = artistSelected;
+                    const url = `https://musicbrainz.org/ws/2/release/?query=release:${albumName}%20AND%20artist:${artistName}&limit=1&fmt=json`;
+                    try {
+                        const response = await fetch(url);
+                        const data = await response.json();
+                        const trackList = document.getElementById('trackList');
+                        trackList.innerHTML = '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>';
+                        if (data.releases && data.releases.length > 0) {
+                            const releaseId = data.releases[0].id;
+                            const releaseUrl = `https://musicbrainz.org/ws/2/release/${releaseId}?inc=recordings&fmt=json`;
+                            const releaseResponse = await fetch(releaseUrl);
+                            const releaseData = await releaseResponse.json();
+                            
+                            console.log(releaseData);  // Log data to see what is inside
+                            
+                            if (releaseData.title) {
+                                trackList.innerHTML = `<h2>${releaseData.title}</h2>`;
+                                if (releaseData.media && releaseData.media[0].tracks) {
+                                    releaseData.media[0].tracks.forEach(track => {
+                                        trackList.innerHTML += `<p>${track.position}. ${track.title}</p>`;
+                                    });
+                                } else {
+                                    trackList.innerHTML += '<p>No tracks found.</p>';
+                                }
                             } else {
-                                trackList.innerHTML += '<p>No tracks found.</p>';
+                                trackList.innerHTML = '<p>No valid album data found.</p>';
                             }
                         } else {
-                            trackList.innerHTML = '<p>No valid album data found.</p>';
+                            trackList.innerHTML = '<p>No results found.</p>';
                         }
-                    } else {
-                        trackList.innerHTML = '<p>No results found.</p>';
+                    } catch (error) {
+                        console.error('Error fetching data:', error);
+                        document.getElementById('trackList').innerHTML = '<p>An error occurred while fetching the data. Please try again.</p>';
                     }
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                    document.getElementById('trackList').innerHTML = '<p>An error occurred while fetching the data. Please try again.</p>';
                 }
-            }
-        </script>
-
+    </script>
     
+    <!--Script for Image-->
 
-</body>
-</html>
+    <script>
+        var queryImage = `https://coverartarchive.org/release/${localStorage.getItem('ArtistID')}`;
+
+        fetch(queryImage)
+            .then(responseImage => responseImage.json())
+            .then(imageData => {
+                var imageReference = imageData.images[0].thumbnails.large;
+                document.getElementById("imageSection").innerHTML += `<img src="${imageReference}" alt="Album cover" style="height: 450px; width: 475px">`; 
+                                      
+        })
+
+    </script>
+
+    <div class="container">
+        <h1>Music Finder</h1>
+
+        <div class="details">
+            <div class="left">
+                <div id="trackList"></div>
+            </div>
+
+
+            <div class ="rightCollection">
+                <div class="right" id="imageSection" style="padding: 10px;">
+                </div>
+                
+                <div class="top">
+                    <h2>Album Info</h2>
+                    <p>Artist Name: Example Artist</p>
+                    <p>Album: Example Album</p>
+                    <p>Release Year: 2024</p>
+                 </div>
+
+                 
+            </div>
+
+            
+        </div>
+
+        <div class="extra-info">
+            <p>Additional album details can be added here. Information about the label, producer, or any special notes.</p>
+        </div>
+
+        <div class="footer"></div>
+    </div>
+
+</body></html>
