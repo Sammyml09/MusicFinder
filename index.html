@@ -124,7 +124,9 @@
                   initBox.style.display = "block";
 
                   var artist = document.getElementById('inputArtist').value;
+                  localStorage.setItem('artistSelected', artist);
                   var album = document.getElementById('inputAlbums').value;
+                  localStorage.setItem('albumSelected', album);
                   var query = `https://musicbrainz.org/ws/2/release/?query=release:${album}%20AND%20artist:${artist}&limit=1&fmt=json`;
                   
                   // Adding loading Spinner
@@ -146,6 +148,7 @@
                               var releaseInfo = `<p>${release.title} by ${release['artist-credit'][0].artist.name}</p>`;
                               resultsDiv.innerHTML += releaseInfo;
                               var releaseID = release.id; // Assuming you get the release ID here
+                              localStorage.setItem('ArtistID', releaseID);
                               var queryImage = `https://coverartarchive.org/release/${releaseID}`;
                               
                               var butSelectThis = document.getElementById('SelectThis');
@@ -173,13 +176,13 @@
             </script>
           
             <div id="SelectThis" style="display:none">
-              <button  class="hero17-button thq-button-filled">
+              <a href="selected.html" class="hero17-button thq-button-filled">
                 <span>
                   <fragment class="home-fragment10">
                     <span class="home-text10 thq-body-small">Select Album</span>
                   </fragment>
                 </span>
-              </button>
+              </a>
             </div>
 
             <div class="hero17-content2">
