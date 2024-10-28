@@ -127,50 +127,57 @@
                   localStorage.setItem('artistSelected', artist);
                   var album = document.getElementById('inputAlbums').value;
                   localStorage.setItem('albumSelected', album);
-                  var query = `https://musicbrainz.org/ws/2/release/?query=release:${album}%20AND%20artist:${artist}&limit=1&fmt=json`;
-                  
-                  // Adding loading Spinner
-
-                  var resultsDiv = document.getElementById('results');
-                  resultsDiv.innerHTML = '<div class ="loading=spinner"></div>';
+                  var query = `https://musicbrainz.org/ws/2/release/?query=release:${album}%20AND%20artist:${artist}&fmt=json`;
 
 
                   // Initial Query for name and other related information
                   fetch(query)
                       .then(response => response.json())
                       .then(data => {
-                          var resultsDiv = document.getElementById('results');
-                          resultsDiv.innerHTML = '';
-                          data.releases.forEach(release => {
+                        var resultsDiv = document.getElementById('results');
+                        resultsDiv.innerHTML = '';
 
-                              // format recieved data and show 
+                        const releases = data.releases;
+                        const firstRelease = releases[0];  // Assume the first release text is always correct
+                        var releaseInfo = `<p>${firstRelease.title} by ${firstRelease['artist-credit'][0].artist.name}</p>`;
+                        resultsDiv.innerHTML = releaseInfo;
+                        var butSelectThis = document.getElementById('SelectThis');
+                        butSelectThis.style.display = "block";
+    
+                        const processRelease = (index) => {
+                            if (index >= releases.length) {
+                                console.error('No valid image found.');
+                                return;
+                            }
 
-                              var releaseInfo = `<p>${release.title} by ${release['artist-credit'][0].artist.name}</p>`;
-                              resultsDiv.innerHTML += releaseInfo;
-                              var releaseID = release.id; // Assuming you get the release ID here
-                              localStorage.setItem('ArtistID', releaseID);
-                              var queryImage = `https://coverartarchive.org/release/${releaseID}`;
-                              
-                              var butSelectThis = document.getElementById('SelectThis');
-                              butSelectThis.style.display = "block";
-                              // Second Query for Image, it's second because it takes longer to recieve
+                            const release = releases[index];
+                            var queryImage = `https://coverartarchive.org/release/${release.id}`;
 
-                              fetch(queryImage)
-                                  .then(responseImage => responseImage.json())
-                                  .then(imageData => {
-                                      var imageReference = imageData.images[0].thumbnails.small;
-                                      resultsDiv.innerHTML += `<img src="${imageReference}" alt="Album cover" align="center">`; 
-                                      
-                                  })
-                                  .catch(error => {
-                                      console.error('Error fetching image:', error);
-                                  });
-                          });
-                      })
-                      .catch(error => {
-                          console.error('Error fetching data:', error);
-                      });
-                      
+                            // Second Query for Image, it's second because it takes longer to receive
+                            fetch(queryImage)
+                                .then(responseImage => responseImage.json())
+                                .then(imageData => {
+                                    if (imageData.images && imageData.images.length > 0) {
+                                        var releaseID = release.id;
+                                        localStorage.setItem('ArtistID', releaseID);
+                                        var imageReference = imageData.images[0].thumbnails.small;
+                                        resultsDiv.innerHTML += `<img src="${imageReference}" alt="Album cover" align="center">`;
+                                    } else {
+                                        console.log(`No image found for release ID: ${release.id}, checking next release...`);
+                                        processRelease(index + 1); // Check the next release
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching image:', error);
+                                    processRelease(index + 1); // Check the next release
+                                });
+                        };
+
+                        processRelease(0); // Start with the first release
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
               }
 
             </script>

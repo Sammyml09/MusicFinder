@@ -18,9 +18,10 @@
                     const albumName = albumSelected;
                     const artistName = artistSelected;
                     const url = `https://musicbrainz.org/ws/2/release/?query=release:${albumName}%20AND%20artist:${artistName}&limit=1&fmt=json`;
+                    
                     try {
                         const response = await fetch(url);
-                        const data = await response.json();
+                        const data = await response.json()
                         const trackList = document.getElementById('trackList');
                         trackList.innerHTML = '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>';
                         if (data.releases && data.releases.length > 0) {
@@ -68,6 +69,28 @@
 
     </script>
 
+    <!--Script for album information-->
+
+    <script>
+        var artistSelected = localStorage.getItem('artistSelected');
+        var albumSelected = localStorage.getItem('albumSelected');
+        var queryArtist = `https://musicbrainz.org/ws/2/release/?query=release:${albumSelected}%20AND%20artist:${artistSelected}&limit=1&fmt=json`;
+
+        fetch(queryArtist)
+            .then(responseArtistInfo => responseArtistInfo.json())
+            .then(artistInfoData => {
+                    const release = artistInfoData.releases[0];
+                        var albumGenre = release['artist-credit'][0].artist.disambiguation;
+                        document.getElementById('AlbumGenreTab').innerHTML += `<p>Genre : ${albumGenre}</p>`
+                        var albumName = release.title;
+                        document.getElementById('AlbumNameTab').innerHTML += `<p>Album Name : ${albumName}</p>`
+                        var albumArtistName = release['artist-credit'][0].name;
+                        document.getElementById('ArtistNameTab').innerHTML += `<p>Artist Name: ${albumArtistName}</p>`;   
+                 
+            })
+
+    </script>
+
     <div class="container">
         <h1>Music Finder</h1>
 
@@ -83,9 +106,9 @@
                 
                 <div class="top">
                     <h2>Album Info</h2>
-                    <p>Artist Name: Example Artist</p>
-                    <p>Album: Example Album</p>
-                    <p>Release Year: 2024</p>
+                    <p id="ArtistNameTab"></p>
+                    <p id="AlbumNameTab"></p>
+                    <p id="AlbumGenreTab"></p>
                  </div>
 
                  
