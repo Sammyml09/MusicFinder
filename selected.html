@@ -9,6 +9,20 @@
 </head>
 <body class ="body" onload="searchAlbum()">
 
+    <!--ai CHAT BOT AIzaSyBK8WyUSFX29GwIiRwyZXwWgeONwp16uhw -->
+    <script type="module">
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+        async function sendMessageToGemini(prompt) {
+            const genAI = new GoogleGenerativeAI('AIzaSyBK8WyUSFX29GwIiRwyZXwWgeONwp16uhw'); // Replace with your actual API key
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const result = await model.generateContent(prompt);
+            console.log(result.response.text());
+        }
+
+        // Example usage
+        sendMessageToGemini('Write a story about a magic backpack.');
+    </script>
+
     <!--Script for Track List--> 
 
     <script>
@@ -117,7 +131,7 @@
             
         </div>
 
-        <div class="extra-info">
+        <div class="extra-info" id="aiChatBox">
             <p>Additional album details can be added here. Information about the label, producer, or any special notes.</p>
         </div>
 
