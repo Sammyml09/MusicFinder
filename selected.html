@@ -16,12 +16,12 @@
             const genAI = new GoogleGenerativeAI('AIzaSyBK8WyUSFX29GwIiRwyZXwWgeONwp16uhw'); // I know I shouldn't have the API key out, no one will use this website!!
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
             const result = await model.generateContent(prompt);
-            document.getElementById('AlbumInfoTab').innerHTML += `<p>Information : ${result.response.text()}</p>`
+            document.getElementById('AlbumInfoTab').innerHTML += `<p>${result.response.text()}</p>`
             console.log(result.response.text());
         }
 
         // Example usage
-        sendMessageToGemini(`You need to provide a short but informative and accurate paragraph, about 3 sentences about an album, including the albums genre, reputation and other important and relevant information about the album ${localStorage.getItem('albumSelected')} by ${localStorage.getItem('artistSelected')}`);
+        sendMessageToGemini(`You provide information about albums on an album information website. You need to Write a short but informational paragraph, roughly 3 sentences about ${localStorage.getItem('ExactAlbumName')} by ${localStorage.getItem('ExactArtistName')}. Give strictly relevant information about ${localStorage.getItem('ExactAlbumName')} only. You can talk about the reception of the album and it's relevance within the artists discography.`);
     </script>
 
     <!--Script for Track List--> 
@@ -86,7 +86,7 @@
 
     <!--Script for album information-->
 
-    <script>
+    <script id="albumInformationScript">
         var artistSelected = localStorage.getItem('artistSelected');
         var albumSelected = localStorage.getItem('albumSelected');
         var queryArtist = `https://musicbrainz.org/ws/2/release/?query=release:${albumSelected}%20AND%20artist:${artistSelected}&limit=1&fmt=json`;
@@ -96,8 +96,10 @@
             .then(artistInfoData => {
                     const release = artistInfoData.releases[0];
                         var albumName = release.title;
+                        localStorage.setItem('ExactAlbumName', albumName)
                         document.getElementById('AlbumNameTab').innerHTML += `<p>Album Name : ${albumName}</p>`
                         var albumArtistName = release['artist-credit'][0].name;
+                        localStorage.setItem('ExactArtistName', albumArtistName)
                         document.getElementById('ArtistNameTab').innerHTML += `<p>Artist Name: ${albumArtistName}</p>`;   
                  
             })
