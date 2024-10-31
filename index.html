@@ -152,7 +152,7 @@
 
                             const release = releases[index];
                             var queryImage = `https://coverartarchive.org/release/${release.id}`;
-
+                            console.log('It made it..')
                             // Second Query for Image, it's second because it takes longer to receive
                             fetch(queryImage)
                                 .then(responseImage => responseImage.json())
