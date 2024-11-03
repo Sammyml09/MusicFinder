@@ -1,0 +1,62 @@
+{
+    "": [
+        {
+            "text": "Hello",
+            "replies": []
+        }
+    ],
+    "4b4698bd-25c7-4635-96e2-178ae2d5cd3b": [
+        {
+            "text": "I like Club Classics! It was my favourite honestly!",
+            "replies": []
+        },
+        {
+            "text": "The apple dance is bad",
+            "replies": [
+                {
+                    "text": "WOW! REALLY!",
+                    "replies": []
+                }
+            ]
+        }
+    ],
+    "dd2e7b8f-e1a1-4af2-b63b-27d348024f0d": [
+        {
+            "text": "Dog!",
+            "replies": []
+        },
+        {
+            "text": "Woah did that just work?!?!",
+            "replies": [
+                {
+                    "text": "I think it did!",
+                    "replies": []
+                }
+            ]
+        },
+        {
+            "text": "Panic at the disco is cool!",
+            "replies": []
+        }
+    ],
+    "null": [
+        {
+            "text": "hello",
+            "replies": [
+                {
+                    "text": "What is your name?",
+                    "replies": [
+                        {
+                            "text": "HMm",
+                            "replies": []
+                        }
+                    ]
+                },
+                {
+                    "text": "Go AWAY!",
+                    "replies": []
+                }
+            ]
+        }
+    ]
+}
