@@ -1,16 +1,36 @@
+import { initializeApp} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"; 
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"; 
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCZaRehLm9_JvragEmcXmFwe5LFd5w_oKg",
+    authDomain: "musicfinder-78a80.firebaseapp.com",
+    projectId: "musicfinder-78a80",
+    storageBucket: "musicfinder-78a80.firebasestorage.app",
+    messagingSenderId: "1055196571399",
+    appId: "1:1055196571399:web:691089229f8282b70447a2",
+    measurementId: "G-MXNEKBZX29"
+};
+
+const app = initializeApp(firebaseConfig); 
+const db = getFirestore(app);
+
 let comments = [];
 let commentSectionId = localStorage.getItem('ArtistID')
 
-function loadCommentSection() {
-    fetch('comments.json')
-        .then(response => response.json())
-        .then(data => {
-            comments = data[commentSectionId] || [];
+export function loadCommentSection() {
+    const docRef = doc(db, "comments", commentSectionId);
+    getDoc(docRef).then((doc) => {
+        if (doc.exists()) {
+            const data = doc.data();
+            comments = data?.comments || [];
             displayComments();
-        });
+        } else {
+            displayComments();
+        }
+    }).catch(error => console.error("Error Loading Comments :", error));
 }
 
-function displayComments(commentsList = comments, parentElement = document.getElementById('comments'), openBranches = []) {
+export function displayComments(commentsList = comments, parentElement = document.getElementById('comments'), openBranches = []) {
     parentElement.innerHTML = '';
     commentsList.forEach((comment, index) => {
         const repliesHTML = displayReplies(comment.replies, `${parentElement.id}-${index}`, openBranches);
@@ -32,7 +52,7 @@ function displayComments(commentsList = comments, parentElement = document.getEl
     });
 }
 
-function displayReplies(replies, parentId, openBranches) {
+export function displayReplies(replies, parentId, openBranches) {
     if (!replies) return '';
     let repliesHTML = '';
     replies.forEach((reply, index) => {
@@ -57,7 +77,7 @@ function displayReplies(replies, parentId, openBranches) {
     return repliesHTML;
 }
 
-function addComment() {
+export function addComment() {
     const commentInput = document.getElementById('commentInput');
     const commentText = commentInput.value;
     comments.push({ text: commentText, replies: [] });
@@ -67,14 +87,14 @@ function addComment() {
     });
 }
 
-function showReplyBox(commentId) {
+export function showReplyBox(commentId) {
     const replyBox = document.getElementById(`reply-box-${commentId}`);
     if (replyBox) {
         replyBox.classList.remove('hidden');
     }
 }
 
-function submitReply(commentId) {
+export function submitReply(commentId) {
     const replyInput = document.getElementById(`reply-input-${commentId}`);
     const replyText = replyInput.value;
     if (replyText === '') return;
@@ -89,14 +109,14 @@ function submitReply(commentId) {
     });
 }
 
-function toggleReplies(commentId) {
+export function toggleReplies(commentId) {
     const repliesDiv = document.getElementById(`replies-${commentId}`);
     if (repliesDiv) {
         repliesDiv.classList.toggle('hidden');
     }
 }
 
-function getOpenBranches() {
+export function getOpenBranches() {
     const openBranches = [];
     document.querySelectorAll('.replies:not(.hidden)').forEach(div => {
         openBranches.push(div.id.replace('replies-', ''));
@@ -104,5 +124,10 @@ function getOpenBranches() {
     return openBranches;
 }
 
-function saveComments(callback) {
-fetch('comments.json') .then(response => response.json()) .then(data => { data[commentSectionId] = comments; const sortedData = {}; Object.keys(data).sort().forEach(key => { sortedData[key] = data[key]; }); return fetch('save_comments.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(sortedData) }); }) .then(callback); } // Initial load loadCommentSection
+
+export function saveComments(callback) { 
+    const docRef = doc(db, "comments", commentSectionId); 
+    setDoc(docRef, { comments: comments }).then(() => {
+         callback();}).catch(error => console.error("Error saving comments:", error));
+        
+}
