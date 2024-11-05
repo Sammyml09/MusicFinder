@@ -1,5 +1,5 @@
-import { initializeApp} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"; 
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"; 
+import { initializeApp} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; 
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; 
 
 const firebaseConfig = {
     apiKey: "AIzaSyCZaRehLm9_JvragEmcXmFwe5LFd5w_oKg",
@@ -18,7 +18,11 @@ let comments = [];
 let commentSectionId = localStorage.getItem('ArtistID')
 
 export function loadCommentSection() {
-    const docRef = doc(db, "comments", commentSectionId);
+    var commentSectionId = localStorage.getItem('ArtistID')
+    if (commentSectionId = 'null'){
+        console.log("OOOOOOOOOOOOOOOOOH");
+    }
+    const docRef = doc(db, "comments", localStorage.getItem('ArtistID'));
     getDoc(docRef).then((doc) => {
         if (doc.exists()) {
             const data = doc.data();
