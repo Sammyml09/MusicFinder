@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <title>Music Finder</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <meta property="og:title" content="Boiling Blushing Seahorse" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
@@ -151,7 +152,7 @@
                             }
 
                             const release = releases[index];
-                            var queryImage = `https://coverartarchive.org/release/${release.id}`;
+                            var queryImage = `http://coverartarchive.org/release/${release.id}`;
                             console.log('It made it..')
                             // Second Query for Image, it's second because it takes longer to receive
                             fetch(queryImage)
