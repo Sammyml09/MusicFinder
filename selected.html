@@ -5,9 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Finder</title>
     <link rel="stylesheet" href="./style.css">
+    
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"; 
+        import { getFirestore, collection, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"; 
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js"; 
+        import { loadCommentSection, saveComments, addComment, showReplyBox, displayComments, displayReplies, submitReply, toggleReplies, getOpenBranches } from "./comments.js"; 
+        import { searchAlbum } from "./tracklist.js";
 
+        const firebaseConfig = {
+            apiKey: "AIzaSyCZaRehLm9_JvragEmcXmFwe5LFd5w_oKg",
+            authDomain: "musicfinder-78a80.firebaseapp.com",
+            projectId: "musicfinder-78a80",
+            storageBucket: "musicfinder-78a80.firebasestorage.app",
+            messagingSenderId: "1055196571399",
+            appId: "1:1055196571399:web:691089229f8282b70447a2",
+            measurementId: "G-MXNEKBZX29"
+        };
+        
+        const app = initializeApp(firebaseConfig); 
+        const db = getFirestore(app);
+
+        window.db = db;
+        window.searchAlbum = searchAlbum;
+
+        window.addComment = addComment;
+        window.showReplyBox = showReplyBox;
+        window.displayComments = displayComments;
+        window.displayReplies = displayReplies;
+        window.submitReply = submitReply;
+        window.toggleReplies = toggleReplies;
+        window.getOpenBranches = getOpenBranches;
+        
+    </script>
 </head>
 <body class ="body" onload="searchAlbum()">
+    
 
     <!--ai CHAT BOT -->
     <script type="module">
@@ -20,53 +54,16 @@
             console.log(result.response.text());
         }
 
-        // Example usage
+       
         sendMessageToGemini(`You provide information about albums on an album information website. You need to Write a short but informational paragraph, roughly 3 sentences about ${localStorage.getItem('ExactAlbumName')} by ${localStorage.getItem('ExactArtistName')}. Give strictly relevant information about ${localStorage.getItem('ExactAlbumName')} only. You can talk about the reception of the album and it's relevance within the artists discography.`);
     </script>
 
     <!--Script for Track List--> 
 
-    <script>
-                async function searchAlbum() {
-                    var artistSelected = localStorage.getItem('artistSelected');
-                    var albumSelected = localStorage.getItem('albumSelected');
-                    const albumName = albumSelected;
-                    const artistName = artistSelected;
-                    const url = `https://musicbrainz.org/ws/2/release/?query=release:${albumName}%20AND%20artist:${artistName}&limit=1&fmt=json`;
-                    
-                    try {
-                        const response = await fetch(url);
-                        const data = await response.json()
-                        const trackList = document.getElementById('trackList');
-                        trackList.innerHTML = '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>';
-                        if (data.releases && data.releases.length > 0) {
-                            const releaseId = data.releases[0].id;
-                            const releaseUrl = `https://musicbrainz.org/ws/2/release/${releaseId}?inc=recordings&fmt=json`;
-                            const releaseResponse = await fetch(releaseUrl);
-                            const releaseData = await releaseResponse.json();
-                            
-                            console.log(releaseData);  // Log data to see what is inside
-                            
-                            if (releaseData.title) {
-                                trackList.innerHTML = `<h2>${releaseData.title}</h2>`;
-                                if (releaseData.media && releaseData.media[0].tracks) {
-                                    releaseData.media[0].tracks.forEach(track => {
-                                        trackList.innerHTML += `<p>${track.position}. ${track.title}</p>`;
-                                    });
-                                } else {
-                                    trackList.innerHTML += '<p>No tracks found.</p>';
-                                }
-                            } else {
-                                trackList.innerHTML = '<p>No valid album data found.</p>';
-                            }
-                        } else {
-                            trackList.innerHTML = '<p>No results found.</p>';
-                        }
-                    } catch (error) {
-                        console.error('Error fetching data:', error);
-                        document.getElementById('trackList').innerHTML = '<p>An error occurred while fetching the data. Please try again.</p>';
-                    }
-                }
+    <script type="module">
+        import { searchAlbum } from "./tracklist.js";
+        window.searchAlbum = searchAlbum;
+
     </script>
     
     <!--Script for Image-->
@@ -78,9 +75,14 @@
             .then(responseImage => responseImage.json())
             .then(imageData => {
                 var imageReference = imageData.images[0].thumbnails.large;
-                document.getElementById("imageSection").innerHTML += `<img src="${imageReference}" alt="Album cover" style="height: 450px; width: 475px">`; 
+                document.getElementById("imageSection").innerHTML += `<img src="${imageReference}" alt="Album cover" style="height: 450px; width: 475px">`;
+                var SpinnerShow = document.getElementById('spinner');
+                SpinnerShow.style.display = "none"; 
                                       
-        })
+        }).catch(error => {
+        var SpinnerShow = document.getElementById('spinner');
+        SpinnerShow.style.display = "block"; 
+        });
 
     </script>
 
@@ -106,6 +108,8 @@
 
     </script>
 
+    
+
     <div class="container">
         <h1>Music Finder</h1>
 
@@ -117,7 +121,7 @@
 
             <div class ="rightCollection">
                 <div class="right" id="imageSection" style="padding: 10px;">
-                    <div class="spinner center">
+                    <div class="spinner center" style="display:block" id="spinner">
                         <div class="spinner-blade"></div>
                         <div class="spinner-blade"></div>
                         <div class="spinner-blade"></div>
@@ -147,10 +151,13 @@
         </div>
 
         <div class="extra-info">
-            <p>Here would go a comment box, but I'm working on that </p>
-        </div>
+            <div id="comments"></div>
+                <textarea id="commentInput" placeholder="Write a comment..."></textarea>
+                <button onclick="addComment()">Add Comment</button>
 
-        <div class="footer"></div>
+            <div class="footer"></div>
     </div>
+
+    
 
 </body></html>
