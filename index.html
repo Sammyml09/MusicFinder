@@ -137,6 +137,12 @@
                   fetch(query)
                       .then(response => response.json())
                       .then(data => {
+                        const release = data.releases[0];
+                        var albumName = release.title;
+                        localStorage.setItem('ExactAlbumName', albumName)
+                        var albumArtistName = release['artist-credit'][0].name;
+                        localStorage.setItem('ExactArtistName', albumArtistName)
+
                         var resultsDiv = document.getElementById('results');
                         resultsDiv.innerHTML = '';
 
