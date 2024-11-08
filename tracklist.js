@@ -1,6 +1,8 @@
 import { loadCommentSection, saveComments } from "./comments.js"; 
 
+
 export async function searchAlbum() {
+    document.getElementById('AlbumInfoTab').innerHTML += `<p></p>`
     loadCommentSection()
     var artistSelected = localStorage.getItem('artistSelected');
     var albumSelected = localStorage.getItem('albumSelected');
@@ -41,3 +43,15 @@ export async function searchAlbum() {
         document.getElementById('trackList').innerHTML = '<p>An error occurred while fetching the data. Please try again.</p>';
     }
 }
+
+        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai"
+        async function sendMessageToGemini() {
+            var prompt = `You provide information about albums on an album information website. You need to Write a short but informational paragraph, roughly 3 sentences about ${localStorage.getItem('ExactAlbumName')} by ${localStorage.getItem('ExactArtistName')}. Give strictly relevant information about ${localStorage.getItem('ExactAlbumName')} only. You can talk about the reception of the album and it's relevance within the artists discography.`
+            const genAI = new GoogleGenerativeAI('AIzaSyBK8WyUSFX29GwIiRwyZXwWgeONwp16uhw'); // I know I shouldn't have the API key out, no one will use this website!!
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const result = await model.generateContent(prompt);
+            document.getElementById('AlbumInfoTab').innerHTML += `<p>${result.response.text()}</p>`
+            console.log(result.response.text());
+        }
+
+        

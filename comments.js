@@ -15,7 +15,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 let comments = [];
-let commentSectionId = localStorage.getItem('ArtistID')
+var commentSectionId = 'b3fc7601-2523-4b6d-bfdd-notpanic'
 
 export function loadCommentSection() {
     var commentSectionId = localStorage.getItem('ArtistID')
