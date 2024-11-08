@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Finder</title>
     <link rel="stylesheet" href="./style.css">
-    
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro&family=Oswald:wght@500&display=swap" rel="stylesheet">
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; 
         import { getFirestore, collection, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; 
@@ -26,7 +31,7 @@
         
         const app = initializeApp(firebaseConfig); 
         const db = getFirestore(app);
-
+        
         window.db = db;
         window.searchAlbum = searchAlbum;
 
@@ -81,6 +86,9 @@
             .then(responseArtistInfo => responseArtistInfo.json())
             .then(artistInfoData => {
                     const release = artistInfoData.releases[0];
+                        albumName = localStorage.getItem('ExactAlbumName')
+                        albumArtistName = localStorage.getItem('ExactArtistName')
+
                         document.getElementById('AlbumNameTab').innerHTML += `<p>Album Name : ${albumName}</p>`
                         document.getElementById('ArtistNameTab').innerHTML += `<p>Artist Name: ${albumArtistName}</p>`;   
                  
@@ -111,7 +119,7 @@
 
         <div class="details">
             <div class="left">
-                <div id="trackList"></div>
+                <div id="trackList" class="oswald-bold"></div>
             </div>
 
 
@@ -135,9 +143,9 @@
                 
                 <div class="top">
                     <h2>Album Info</h2>
-                    <p id="ArtistNameTab"></p>
-                    <p id="AlbumNameTab"></p>
-                    <p id="AlbumInfoTab"></p>
+                    <p id="ArtistNameTab" class="oswald-bold"></p>
+                    <p id="AlbumNameTab" class="oswald-bold"></p>
+                    <p id="AlbumInfoTab" class="oswald-bold"></p>
                  </div>
 
                  
@@ -148,7 +156,7 @@
 
         <div class="extra-info">
             <div id="comments"></div>
-                <textarea id="commentInput" placeholder="Write a comment..."></textarea>
+                <textarea id="commentInput" placeholder="Write a comment..." rows="4" cols="50"></textarea>
                 <button onclick="addComment()">Add Comment</button>
 
             <div class="footer"></div>
