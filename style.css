@@ -32,8 +32,6 @@
   --dl-space-space-oneandhalfunits: 24px;
 }
 
-
-
 .body {
   font-family: Arial, sans-serif;
    /* Replace with your background */
@@ -47,11 +45,20 @@
 
 }
 
+/* <uniquifier>: Use a unique and descriptive class name */
+
+.oswald-bold {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
 .container {
   margin-top: 20px;
   margin-bottom: 20px;
   width: 1100px;
-  background-color: #8D6876;
+  background-color: #896571;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0px 0px 19px 15px rgba(0, 0, 0, 0.2);
@@ -60,8 +67,11 @@
 
 .container h1 {
   text-align: center;
-  font-size: 24px;
+  font-size: 30px;
   margin-bottom: 20px;
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-weight: 800;
+  font-style: italic;
 }
 
 .album-info {
