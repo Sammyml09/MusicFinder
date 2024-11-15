@@ -32,6 +32,15 @@
   --dl-space-space-oneandhalfunits: 24px;
 }
 
+.NextPage {
+  background-color: #A88A95;
+  padding: 10px;
+  border-radius: 10px;
+  width: 300px;
+  margin-bottom: inherit;
+  margin-left: 400px;
+}
+
 .body {
   font-family: Arial, sans-serif;
   background-size: cover;
@@ -40,7 +49,7 @@
   display: flex;
   justify-content: center;
   min-height: 100vh; /* Ensure the background stretches at least the height of the viewport */
-  background-image: linear-gradient(180deg, pink, rgb(172, 111, 172));
+  background-image: linear-gradient(180deg, rgb(216, 163, 172), rgb(235, 194, 216));
   background-attachment: fixed; /* Fix the background to prevent repeating */
 }
 
@@ -67,11 +76,12 @@
 
 .container h1 {
   text-align: center;
-  font-size: 48px;
+  font-size: 60px;
   margin-bottom: 20px;
   font-family: "Be Vietnam Pro", sans-serif;
   font-weight: 800;
   font-style: italic;
+  margin-top: 1px;
 
 }
 
@@ -127,6 +137,9 @@
   background-color: #A88A95;
   padding: 15px;
   border-radius: 10px;
+  margin-left: 25px;
+  width: 1010px;
+  margin-bottom: 20px;
 }
 
 .footer {

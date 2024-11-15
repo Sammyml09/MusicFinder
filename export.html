@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Image Customizer</title>
+    <style>
+        #imageCanvas {
+            border: 1px solid black;
+        }
+        .scrollbar {
+            overflow-x: scroll;
+            white-space: nowrap;
+        }
+        .scrollbar img {
+            width: 100px;
+            cursor: pointer;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Advanced Image Customizer</h1>
+    <canvas id="imageCanvas" width="500" height="500"></canvas>
+    <br>
+    <div class="scrollbar">
+        <img src="img1.png" onclick="changeImage('img1.png')">
+        <img src="img2.png" onclick="changeImage('img2.png')">
+        <img src="img3.png" onclick="changeImage('img3.png')">
+        <!-- Add more images as needed -->
+    </div>
+    <br>
+    <button onclick="downloadImage()">Download as PNG</button>
+
+    <script>
+        const baseImage = new Image();
+        const canvas = document.getElementById('imageCanvas');
+        const context = canvas.getContext('2d');
+        baseImage.src = 'base.png'; // Initial base image
+        baseImage.onload = () => context.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
+
+        function changeImage(src) {
+            const newImage = new Image();
+            newImage.src = src;
+            newImage.onload = function() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(baseImage, 0, 0, canvas.width, canvas.height); // Draw base image first
+                context.drawImage(newImage, 0, 0, canvas.width, canvas.height); // Overlay new image
+            };
+        }
+
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.download = 'custom_image.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>
