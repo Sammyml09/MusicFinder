@@ -13,6 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro&family=Oswald:wght@500&display=swap" rel="stylesheet">
 
     <script type="module">
+
+        // Imports the Firebase API
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; 
         import { getFirestore, collection, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"; 
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js"; 
@@ -20,7 +22,7 @@
         import { searchAlbum } from "./tracklist.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyCZaRehLm9_JvragEmcXmFwe5LFd5w_oKg",
+            apiKey: "AIzaSyCZaRehLm9_JvragEmcXmFwe5LFd5w_oKg", // I know I shouldn't do this :)
             authDomain: "musicfinder-78a80.firebaseapp.com",
             projectId: "musicfinder-78a80",
             storageBucket: "musicfinder-78a80.firebasestorage.app",
@@ -32,9 +34,9 @@
         const app = initializeApp(firebaseConfig); 
         const db = getFirestore(app);
         
+        // Window-ing all the variables within other scripts.
         window.db = db;
         window.searchAlbum = searchAlbum;
-
         window.addComment = addComment;
         window.showReplyBox = showReplyBox;
         window.displayComments = displayComments;
@@ -64,6 +66,7 @@
             .then(responseImage => responseImage.json())
             .then(imageData => {
                 var imageReference = imageData.images[0].thumbnails.large;
+                localStorage.setItem('albumCoverURL', imageReference);
                 document.getElementById("imageSection").innerHTML += `<img src="${imageReference}" alt="Album cover" style="height: 450px; width: 475px">`;
                 var SpinnerShow = document.getElementById('spinner');
                 SpinnerShow.style.display = "none"; 

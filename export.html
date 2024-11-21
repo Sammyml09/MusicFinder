@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Image Customizer</title>
+    <title>Image Customizer</title>
     <style>
         #imageCanvas {
             border: 1px solid black;
@@ -20,35 +20,81 @@
     </style>
 </head>
 <body>
-    <h1>Advanced Image Customizer</h1>
+    <h1>Image Customizer</h1>
     <canvas id="imageCanvas" width="500" height="500"></canvas>
     <br>
+
+    <!-- Images to be selected / swapped out with. -->
     <div class="scrollbar">
-        <img src="img1.png" onclick="changeImage('img1.png')">
-        <img src="img2.png" onclick="changeImage('img2.png')">
-        <img src="img3.png" onclick="changeImage('img3.png')">
-        <!-- Add more images as needed -->
+        <p>Element 1</p>
+        <img src="./images/img1.png" onclick="changeImage('./images/img1.png')">
+        <img src="./images/img2.png" onclick="changeImage('./images/img2.png')">
+        <img src="./images/img3.png" onclick="changeImage('./images/img3.png')">
+        <p>Element 2</p>
+        <img src="./images/img1.png" onclick="changeImage2('./images/img1.png')">
+        <img src="./images/img2.png" onclick="changeImage2('./images/img2.png')">
+        <img src="./images/img3.png" onclick="changeImage2('./images/img3.png')">
+        <p>Element 3</p>
+        <img src="./images/img1.png" onclick="changeImage3('./images/img1.png')">
+        <img src="./images/img2.png" onclick="changeImage3('./images/img2.png')">
+        <img src="./images/img3.png" onclick="changeImage3('./images/img3.png')">
     </div>
     <br>
     <button onclick="downloadImage()">Download as PNG</button>
+
 
     <script>
         const baseImage = new Image();
         const canvas = document.getElementById('imageCanvas');
         const context = canvas.getContext('2d');
-        baseImage.src = 'base.png'; // Initial base image
-        baseImage.onload = () => context.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
+        baseImage.src = './images/base.png'; // Initial base image
+        baseImage.onload = (initalLoad) 
+        const img = document.get
+        
 
+        // Sets up the canvas with the background image and text.
+        function initalLoad(){
+
+            context.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
+            context.fillText(localStorage.getItem('ExactAlbumName'), 10, 50);
+            context.fillText(localStorage.getItem('ExactArtistName'), 10, 100);
+
+        }
+
+        context.font = "48px serif";
+        context.fillText("Testing", 200, 240)
+
+        
+        // Loads the bottom left image once clicked.
         function changeImage(src) {
             const newImage = new Image();
             newImage.src = src;
             newImage.onload = function() {
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                context.drawImage(baseImage, 0, 0, canvas.width, canvas.height); // Draw base image first
-                context.drawImage(newImage, 0, 0, canvas.width, canvas.height); // Overlay new image
+                context.drawImage(newImage, 0, 0, canvas.width, canvas.height, 50, 350, 250, 250); // Overlay new image
             };
         }
 
+        // Loads the bottom right image once clicked.
+        function changeImage2(src) {
+            const newImage = new Image();
+            newImage.src = src;
+            newImage.onload = function() {
+                context.drawImage(newImage, 0, 0, canvas.width, canvas.height, 250, 150, 250, 250);
+            }
+
+        }
+        
+        // Loads the top right image once clicked.
+        function changeImage3(src) {
+            const newImage = new Image();
+            newImage.src = src;
+            newImage.onload = function() {
+                context.drawImage(newImage, 0, 0, canvas.width, canvas.height, 50, 50, 250, 250);
+            }
+
+        }
+
+        // Saves the canvas as an image.
         function downloadImage() {
             const link = document.createElement('a');
             link.download = 'custom_image.png';
