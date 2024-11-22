@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Customizer</title>
+    <link rel="stylesheet" href="./style.css">
     <style>
-        #imageCanvas {
-            border: 1px solid black;
-        }
         .scrollbar {
             overflow-x: scroll;
             white-space: nowrap;
@@ -19,28 +17,30 @@
         }
     </style>
 </head>
-<body>
+<body class="body">
+    <div class="mainElement">
+    
     <h1>Image Customizer</h1>
-    <canvas id="imageCanvas" width="500" height="500"></canvas>
+    <canvas id="imageCanvas" width="750" height="750" class="imageCanvas"></canvas>
     <br>
 
-    <!-- Images to be selected / swapped out with. -->
+    <!-- Images to be selected / swapped out with. -->                         
     <div class="scrollbar">
         <p>Element 1</p>
-        <img src="./images/img1.png" onclick="changeImage('./images/img1.png')">
-        <img src="./images/img2.png" onclick="changeImage('./images/img2.png')">
-        <img src="./images/img3.png" onclick="changeImage('./images/img3.png')">
+        <img src="./images/img1.png" onclick="changeImage('./images/img1.png', 50, 350, 400, 400)">
+        <img src="./images/img2.png" onclick="changeImage('./images/img2.png', 50, 250, 250, 250)">
+        <img src="./images/img3.png" onclick="changeImage('./images/img3.png', 50, 350, 250, 250)">
         <p>Element 2</p>
-        <img src="./images/img1.png" onclick="changeImage2('./images/img1.png')">
-        <img src="./images/img2.png" onclick="changeImage2('./images/img2.png')">
-        <img src="./images/img3.png" onclick="changeImage2('./images/img3.png')">
+        <img src="./images/img1.png" onclick="changeImage('./images/img1.png', 250 ,150, 250, 250)">
+        <img src="./images/img2.png" onclick="changeImage('./images/img2.png', 250, 150, 250, 250)">
+        <img src="./images/img3.png" onclick="changeImage('./images/img3.png', 250, 150, 250, 250)">
         <p>Element 3</p>
-        <img src="./images/img1.png" onclick="changeImage3('./images/img1.png')">
-        <img src="./images/img2.png" onclick="changeImage3('./images/img2.png')">
-        <img src="./images/img3.png" onclick="changeImage3('./images/img3.png')">
+        <img src="./images/img1.png" onclick="changeImage('./images/img1.png', 50, 50, 250, 250)">
+        <img src="./images/img2.png" onclick="changeImage('./images/img2.png', 50, 50, 250, 250)">
+        <img src="./images/img3.png" onclick="changeImage('./images/img3.png', 50, 50, 250, 250)">
     </div>
     <br>
-    <button onclick="downloadImage()">Download as PNG</button>
+    <button onclick="downloadImage()" class="hero17-button thq-button-filled" style="background-color: #7a73a3;color: #FFFFFF;border-color: black;margin-left: 300px;">Download as PNG</button>
 
 
     <script>
@@ -64,34 +64,13 @@
         context.font = "48px serif";
         context.fillText("Testing", 200, 240)
 
-        
-        // Loads the bottom left image once clicked.
-        function changeImage(src) {
+        // Function to change the image, it gets run once you click onto the soruce image and places based on Xpos and Ypos
+        function changeImage(src, xpos, ypos, xscale, yscale) {
             const newImage = new Image();
             newImage.src = src;
             newImage.onload = function() {
-                context.drawImage(newImage, 0, 0, canvas.width, canvas.height, 50, 350, 250, 250); // Overlay new image
+                context.drawImage(newImage, 0, 0, canvas.width, canvas.height, xpos, ypos, xscale, yscale); // Overlay new image
             };
-        }
-
-        // Loads the bottom right image once clicked.
-        function changeImage2(src) {
-            const newImage = new Image();
-            newImage.src = src;
-            newImage.onload = function() {
-                context.drawImage(newImage, 0, 0, canvas.width, canvas.height, 250, 150, 250, 250);
-            }
-
-        }
-        
-        // Loads the top right image once clicked.
-        function changeImage3(src) {
-            const newImage = new Image();
-            newImage.src = src;
-            newImage.onload = function() {
-                context.drawImage(newImage, 0, 0, canvas.width, canvas.height, 50, 50, 250, 250);
-            }
-
         }
 
         // Saves the canvas as an image.
@@ -101,6 +80,8 @@
             link.href = canvas.toDataURL();
             link.click();
         }
+
     </script>
+    </div>
 </body>
 </html>
