@@ -55,7 +55,8 @@
         const albumCoverImg = localStorage.getItem('albumCoverURL');
         const storedImg = new Image();
         storedImg.src = albumCoverImg;
-
+        storedImg.crossOrigin="anonymous"
+        
         const baseImage = new Image();
         const mainCanvas = document.getElementById('mainCanvas');
         const mainContext = mainCanvas.getContext('2d');
