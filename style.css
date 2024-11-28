@@ -33,7 +33,7 @@
 }
 
 .NextPage {
-  background-color: #A88A95;
+  background-color: #7e8c97;
   padding: 10px;
   border-radius: 10px;
   width: 300px;
@@ -73,7 +73,7 @@
   margin-top: 20px;
   margin-bottom: 20px;
   width: 1100px;
-  background-color: #896571;
+  background-color: #919fa9;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0px 0px 19px 15px rgba(0, 0, 0, 0.2);
@@ -113,7 +113,7 @@
   border-radius: 10px;
   margin-bottom: 20px;
   position: relative;
-  background-color: #A88A95;
+  background-color: #7e8c97;
 }
 
 .rightCollection {
@@ -124,7 +124,7 @@
 }
 
 .right{
-  background-color: #A88A95;
+  background-color: #7e8c97;
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 20px;
@@ -133,14 +133,14 @@
 }
 .left {
   width: 45%;
-  background-color: #A88A95;
+  background-color: #7e8c97;
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 20px;
 }
 
 .extra-info {
-  background-color: #A88A95;
+  background-color: #7e8c97;
   padding: 15px;
   border-radius: 10px;
   margin-left: 25px;

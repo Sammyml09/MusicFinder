@@ -56,13 +56,16 @@
         function initalLoad(){
 
             context.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
-            context.fillText(localStorage.getItem('ExactAlbumName'), 10, 50);
-            context.fillText(localStorage.getItem('ExactArtistName'), 10, 100);
+            context.font = "30px Courier New";
+            context.fillStyle = "#ffffff"
+            context.fillText(localStorage.getItem('ExactAlbumName'), 310, 50, 430);
+            context.fillText(localStorage.getItem('ExactArtistName'), 310, 100, 430);
+
+            
 
         }
 
-        context.font = "48px serif";
-        context.fillText("Testing", 200, 240)
+        
 
         // Function to change the image, it gets run once you click onto the soruce image and places based on Xpos and Ypos
         function changeImage(src, xpos, ypos, xscale, yscale) {
