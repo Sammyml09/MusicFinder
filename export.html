@@ -19,136 +19,128 @@
 </head>
 <body class="body">
     <div class="mainElement">
-    
-    <h1>Image Customizer</h1>
-    <canvas id="mainCanvas" width="750" height="750" class="imageCanvas"></canvas>
-    <br>
+        <h1>Image Customizer</h1>
+        <canvas id="mainCanvas" width="750" height="750" class="imageCanvas"></canvas>
+        <br>
+        <div class="scrollbar">
+            <p>Element 1</p>
+            <img src="./images/img1.png" onclick="changeImage('./images/img1.png', 1, 110, 330, 200, 200)">
+            <img src="./images/img2.png" onclick="changeImage('./images/img2.png', 1, 110, 350, 200, 200)">
+            <img src="./images/img3.png" onclick="changeImage('./images/img3.png', 1, 110, 320, 220, 220)">
+            <img src="./images/img4.png" onclick="changeImage('./images/img4.png', 1, 110, 370, 120, 140)">
+            <img src="./images/img5.png" onclick="changeImage('./images/img5.png', 1, 120, 425, 120, 120)">
+            <img src="./images/img6.webp" onclick="changeImage('./images/img6.webp', 1, 100, 360, 210, 210)">
+            <img src="./images/bomb.png" onclick="changeImage('./images/bomb.png', 1, 100, 360, 260, 210)">
+            <p>Element 2</p>
+            <img src="./images/img1.png" onclick="changeImage('./images/img1.png', 2, 370, 330, 200, 200)">
+            <img src="./images/img2.png" onclick="changeImage('./images/img2.png', 2, 370, 350, 200, 200)">
+            <img src="./images/img3.png" onclick="changeImage('./images/img3.png', 2, 370, 320, 220, 220)">
+            <img src="./images/img7.png" onclick="changeImage('./images/img7.png', 2, 370, 300, 280, 250)">
+            <img src="./images/lamp.png" onclick="changeImage('./images/lamp.png', 2, 390, 310, 220, 220)">
+            <img src="./images/candles.png" onclick="changeImage('./images/candles.png', 2, 420, 335, 200, 200)">
+            <img src="./images/cpap.webp" onclick="changeImage('./images/cpap.webp', 2, 370, 300, 350, 250)">
+            <p>Element 3</p>
+            <img src="./images/guitar1.png" onclick="changeImage('./images/guitar1.png', 3, 520, 280, 190, 470)">
+            <img src="./images/drumb.png" onclick="changeImage('./images/drumb.png', 3, 370, 380, 350, 350)">
+            <img src="./images/mannequin.webp" onclick="changeImage('./images/mannequin.webp', 3, 470, 370, 400, 400)">
+            <img src="./images/flowers.png" onclick="changeImage('./images/flowers.png', 3, 0, 520, 700, 300)">
+        </div>
+        <br>
+        <button onclick="downloadImage()" class="hero17-button thq-button-filled" style="background-color: #7a73a3;color: #FFFFFF;border-color: black;margin-left: 300px;">Download as PNG</button>
 
-    <!-- Images to be selected / swapped out with. -->                         
-    <div class="scrollbar">
-        <p>Element 1</p>
-        <img src="./images/img1.png" onclick="changeImage('./images/img1.png', 1, 110, 330, 200, 200)">
-        <img src="./images/img2.png" onclick="changeImage('./images/img2.png', 1, 110, 350, 200, 200)">
-        <img src="./images/img3.png" onclick="changeImage('./images/img3.png', 1, 110, 320, 220, 220)">
-        <img src="./images/img4.png" onclick="changeImage('./images/img4.png', 1, 110, 370, 120, 140)">
-        <img src="./images/img5.png" onclick="changeImage('./images/img5.png', 1, 120, 425, 120, 120)">
-        <img src="./images/img6.webp" onclick="changeImage('./images/img6.webp', 1, 100, 360, 210, 210)">
-        <img src="./images/bomb.png" onclick="changeImage('./images/bomb.png', 1, 100, 360, 260, 210)">
-        <p>Element 2</p>
-        <img src="./images/img1.png" onclick="changeImage('./images/img1.png', 2, 370 ,330, 200, 200)">
-        <img src="./images/img2.png" onclick="changeImage('./images/img2.png', 2, 370, 350, 200, 200)">
-        <img src="./images/img3.png" onclick="changeImage('./images/img3.png', 2, 370, 320, 220, 220)">
-        <img src="./images/img7.png" onclick="changeImage('./images/img7.png', 2, 370, 300, 280, 250)">
-        <img src="./images/lamp.png" onclick="changeImage('./images/lamp.png', 2, 390, 310, 220, 220)">
-        <img src="./images/candles.png" onclick="changeImage('./images/candles.png', 2, 420, 335, 200, 200)">
-        <img src="./images/cpap.webp" onclick="changeImage('./images/cpap.webp', 2, 370, 300, 350, 250)">
-        <p>Element 3</p>
-        <img src="./images/guitar1.png" onclick="changeImage('./images/guitar1.png', 3, 520, 280, 190, 470)">
-        <img src="./images/drumb.png" onclick="changeImage('./images/drumb.png', 3, 370, 380, 350, 350)">
-        <img src="./images/mannequin.webp" onclick="changeImage('./images/mannequin.webp', 3, 470, 370, 400, 400)">
-        <img src="./images/flowers.png" onclick="changeImage('./images/flowers.png', 3, 0, 520, 700, 300)">
-    </div>
-    <br>
-    <button onclick="downloadImage()" class="hero17-button thq-button-filled" style="background-color: #7a73a3;color: #FFFFFF;border-color: black;margin-left: 300px;">Download as PNG</button>
+        <script>
+            const albumCoverImg = localStorage.getItem('albumCoverURL');
+            const storedImg = new Image();
+            storedImg.src = albumCoverImg;
+            storedImg.crossOrigin = "anonymous";
+            
+            const baseImage = new Image();
+            const mainCanvas = document.getElementById('mainCanvas');
+            const mainContext = mainCanvas.getContext('2d');
+            const canvases = {};
+            baseImage.src = './images/base.png'; // Initial base image
 
-    <script>
-        const albumCoverImg = localStorage.getItem('albumCoverURL');
-        const storedImg = new Image();
-        storedImg.src = albumCoverImg;
-        storedImg.crossOrigin = "anonymous";
-        
-        const baseImage = new Image();
-        const mainCanvas = document.getElementById('mainCanvas');
-        const mainContext = mainCanvas.getContext('2d');
-        const canvases = {};
-        baseImage.src = './images/base.png'; // Initial base image
-
-        baseImage.onload = function() {
-            initialLoad();
-        };
-
-        storedImg.onload = function() {
-            updateMainCanvas(); // Draw the album cover when it is loaded
-        };
-
-        function createCanvas(id) {
-            if (!canvases[id]) {
-                const canvas = document.createElement('canvas');
-                canvas.width = mainCanvas.width;
-                canvas.height = mainCanvas.height;
-                canvases[id] = canvas;
-            }
-        }
-
-        function changeImage(src, id, xpos, ypos, xscale, yscale) {
-            createCanvas(id);
-            const context = canvases[id].getContext('2d');
-            const newImage = new Image();
-            newImage.src = src;
-            newImage.crossOrigin = "anonymous";  // Allow cross-origin images
-            newImage.onload = function() {
-                context.clearRect(0, 0, canvases[id].width, canvases[id].height); // Clear previous image
-                context.drawImage(newImage, xpos, ypos, xscale, yscale); // Draw new image
-                updateMainCanvas();
+            baseImage.onload = function() {
+                initialLoad();
             };
-        }
 
-        function initialLoad() {
-            mainContext.clearRect(0, 0, mainCanvas.width, mainCanvas.height); // Clear main canvas
-            mainContext.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height); // Draw base image
-            mainContext.font = "30px Courier New";
-            mainContext.fillStyle = "#ffffff";
-            mainContext.fillText(localStorage.getItem('ExactAlbumName'), 310, 50, 430);
-            mainContext.fillText(localStorage.getItem('ExactArtistName'), 310, 100, 430);
-        }
+            storedImg.onload = function() {
+                updateMainCanvas(); // Draw the album cover when it is loaded
+            };
 
-        function updateMainCanvas() {
-            initialLoad(); // Ensure initial text and base image are redrawn
-            if (storedImg.complete) {
-                mainContext.drawImage(storedImg, 0, 0, 500, 500, 35, 70, 230, 230); // Draw the stored album cover
-            }
-            for (const id in canvases) {
-                mainContext.drawImage(canvases[id], 0, 0); // Overlay each element group canvas
-            }
-        }
-
-    
-    
-
-    function downloadImage() {
-        const images = ['./images/base.png', localStorage.getItem('albumCoverURL')];
-        const loadImagePromises = images.map(src => {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.crossOrigin = "anonymous";  // Allow cross-origin images
-                img.src = src;
-                img.onload = () => resolve(img);
-                img.onerror = reject;
-            });
-        });
-
-        Promise.all(loadImagePromises).then(loadedImages => {
-            const [baseImage, storedImg] = loadedImages;
-            mainContext.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
-            mainContext.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height);
-            mainContext.drawImage(storedImg, 0, 0, 500, 500, 35, 70, 230, 230);
-            initialLoad()
-
-            // Drawing other elements from canvases
-            for (const id in canvases) {
-                mainContext.drawImage(canvases[id], 0, 0);
+            function createCanvas(id) {
+                if (!canvases[id]) {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = mainCanvas.width;
+                    canvas.height = mainCanvas.height;
+                    canvases[id] = canvas;
+                }
             }
 
-            // Trigger download
-            const link = document.createElement('a');
-            link.download = 'custom_image.png';
-            link.href = mainCanvas.toDataURL();
-            link.click();
-        })
-    }
+            function changeImage(src, id, xpos, ypos, xscale, yscale) {
+                createCanvas(id);
+                const context = canvases[id].getContext('2d');
+                const newImage = new Image();
+                newImage.src = src;
+                newImage.crossOrigin = "anonymous";  // Allow cross-origin images
+                newImage.onload = function() {
+                    context.clearRect(0, 0, canvases[id].width, canvases[id].height); // Clear previous image
+                    context.drawImage(newImage, xpos, ypos, xscale, yscale); // Draw new image
+                    updateMainCanvas();
+                };
+            }
 
+            function initialLoad() {
+                mainContext.clearRect(0, 0, mainCanvas.width, mainCanvas.height); // Clear main canvas
+                mainContext.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height); // Draw base image
+                mainContext.font = "30px Courier New";
+                mainContext.fillStyle = "#ffffff";
+                mainContext.fillText(localStorage.getItem('ExactAlbumName'), 310, 50, 430);
+                mainContext.fillText(localStorage.getItem('ExactArtistName'), 310, 100, 430);
+            }
 
-    </script>
+            function updateMainCanvas() {
+                initialLoad(); // Ensure initial text and base image are redrawn
+                if (storedImg.complete) {
+                    mainContext.drawImage(storedImg, 0, 0, 500, 500, 35, 70, 230, 230); // Draw the stored album cover
+                }
+                for (const id in canvases) {
+                    mainContext.drawImage(canvases[id], 0, 0); // Overlay each element group canvas
+                }
+            }
+
+            function downloadImage() {
+                const images = ['./images/base.png', localStorage.getItem('albumCoverURL')];
+                const loadImagePromises = images.map(src => {
+                    return new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.crossOrigin = "anonymous";  // Allow cross-origin images
+                        img.src = src;
+                        img.onload = () => resolve(img);
+                        img.onerror = reject;
+                    });
+                });
+
+                Promise.all(loadImagePromises).then(loadedImages => {
+                    const [baseImage, storedImg] = loadedImages;
+                    mainContext.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+                    mainContext.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height);
+                    mainContext.drawImage(storedImg, 0, 0, 500, 500, 35, 70, 230, 230);
+                    initialLoad();
+
+                    // Drawing other elements from canvases
+                    for (const id in canvases) {
+                        mainContext.drawImage(canvases[id], 0, 0);
+                    }
+
+                    // Trigger download
+                    const link = document.createElement('a');
+                    link.download = 'custom_image.png';
+                    link.href = mainCanvas.toDataURL();
+                    link.click();
+                });
+            }
+        </script>
     </div>
 </body>
 </html>
