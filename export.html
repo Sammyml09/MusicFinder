@@ -93,10 +93,14 @@
             function initialLoad() {
                 mainContext.clearRect(0, 0, mainCanvas.width, mainCanvas.height); // Clear main canvas
                 mainContext.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height); // Draw base image
-                mainContext.font = "30px Courier New";
-                mainContext.fillStyle = "#ffffff";
-                mainContext.fillText(localStorage.getItem('ExactAlbumName'), 310, 50, 430);
-                mainContext.fillText(localStorage.getItem('ExactArtistName'), 310, 100, 430);
+                drawText(mainContext);
+            }
+
+            function drawText(context) {
+                context.font = "30px Courier New";
+                context.fillStyle = "#ffffff";
+                context.fillText(localStorage.getItem('ExactAlbumName'), 310, 50, 430);
+                context.fillText(localStorage.getItem('ExactArtistName'), 310, 100, 430);
             }
 
             function updateMainCanvas() {
@@ -110,6 +114,11 @@
             }
 
             function downloadImage() {
+                const tempCanvas = document.createElement('canvas');
+                const tempContext = tempCanvas.getContext('2d');
+                tempCanvas.width = mainCanvas.width;
+                tempCanvas.height = mainCanvas.height;
+
                 const images = ['./images/base.png', localStorage.getItem('albumCoverURL')];
                 const loadImagePromises = images.map(src => {
                     return new Promise((resolve, reject) => {
@@ -123,20 +132,19 @@
 
                 Promise.all(loadImagePromises).then(loadedImages => {
                     const [baseImage, storedImg] = loadedImages;
-                    mainContext.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
-                    mainContext.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height);
-                    mainContext.drawImage(storedImg, 0, 0, 500, 500, 35, 70, 230, 230);
-                    initialLoad();
+                    tempContext.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+                    tempContext.drawImage(baseImage, 0, 0, tempCanvas.width, tempCanvas.height);
+                    tempContext.drawImage(storedImg, 0, 0, 500, 500, 35, 70, 230, 230);
+                    
+                    drawText(tempContext);
 
-                    // Drawing other elements from canvases
                     for (const id in canvases) {
-                        mainContext.drawImage(canvases[id], 0, 0);
+                        tempContext.drawImage(canvases[id], 0, 0);
                     }
 
-                    // Trigger download
                     const link = document.createElement('a');
                     link.download = 'custom_image.png';
-                    link.href = mainCanvas.toDataURL();
+                    link.href = tempCanvas.toDataURL();
                     link.click();
                 });
             }
