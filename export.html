@@ -85,6 +85,7 @@
             const context = canvases[id].getContext('2d');
             const newImage = new Image();
             newImage.src = src;
+            newImage.crossOrigin = "anonymous";  // Allow cross-origin images
             newImage.onload = function() {
                 context.clearRect(0, 0, canvases[id].width, canvases[id].height); // Clear previous image
                 context.drawImage(newImage, xpos, ypos, xscale, yscale); // Draw new image
