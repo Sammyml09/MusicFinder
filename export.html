@@ -55,7 +55,7 @@
         const albumCoverImg = localStorage.getItem('albumCoverURL');
         const storedImg = new Image();
         storedImg.src = albumCoverImg;
-        storedImg.crossOrigin="anonymous"
+        storedImg.crossOrigin= "anonymous";
         
         const baseImage = new Image();
         const mainCanvas = document.getElementById('mainCanvas');
@@ -133,7 +133,7 @@
             mainContext.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height);
             mainContext.drawImage(storedImg, 0, 0, 500, 500, 35, 70, 230, 230);
             initialLoad()
-            
+
             // Drawing other elements from canvases
             for (const id in canvases) {
                 mainContext.drawImage(canvases[id], 0, 0);
