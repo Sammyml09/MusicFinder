@@ -168,15 +168,10 @@
                             console.log('It made it..')
                             var releaseID = release.id;
                             localStorage.setItem('ArtistID', releaseID);
-                            
-                            var nocors = {
-                              headers: {
-                                'mode':'no-cors'
-                              }
-                            }
+                          
 
                             // Second Query for Image, it's second because it takes longer to receive
-                            fetch(queryImage, nocors)
+                            fetch(queryImage)
                                 .then(responseImage => responseImage.json())
                                 .then(imageData => {
                                     if (imageData.images && imageData.images.length > 0) {
