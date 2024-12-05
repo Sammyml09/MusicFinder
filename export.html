@@ -51,7 +51,8 @@
         <script>
             const albumCoverImg = localStorage.getItem('albumCoverURL');
             const storedImg = new Image();
-            storedImg.src = albumCoverImg || './images/noimage.png/';
+            storedImg.src = albumCoverImg || './images/noimage.png';
+            console.log(storedImg)
             storedImg.crossOrigin = "anonymous";
             
             const baseImage = new Image();
