@@ -60,19 +60,14 @@
     <!--Script for Image-->
 
     <script>
-        var queryImage = `https://cors-anywhere.herokuapp.com/https://coverartarchive.org/release/${localStorage.getItem('ArtistID')}`;
+        var queryImage = `https://coverartarchive.org/release/${localStorage.getItem('ArtistID')}`;
         console.log(queryImage)
-        fetch(queryImage, {method: 'GET',headers: {'Origin': window.location.origin,'X-Requested-With': 'XMLHttpRequest'}})
+        fetch(queryImage)
             .then(responseImage => responseImage.json())
             .then(imageData => {
                 var imageReference = imageData.images[0].thumbnails.large;
-                fetch(`https://cors-anywhere.herokuapp.com/${imageReference}`, {method: 'GET',headers: {'Origin': window.location.origin,'X-Requested-With': 'XMLHttpRequest'}
-                }).then(response => response.blob())
-                .then(blob => {
-                    var objectURL = URL.createObjectURL(blob);
-                    document.getElementById("imageSection").innerHTML += `<img src="${objectURL}" alt="Album cover" style="height: 450px; width: 475px">`;
-                    localStorage.setItem('albumCoverURL', objectURL);
-                })
+                localStorage.setItem('albumCoverURL', imageReference);
+                document.getElementById("imageSection").innerHTML += `<img src="${imageReference}" alt="Album cover" style="height: 450px; width: 475px">`;
                 var SpinnerShow = document.getElementById('spinner');
                 SpinnerShow.style.display = "none"; 
                                       
