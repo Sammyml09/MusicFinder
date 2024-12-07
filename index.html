@@ -163,37 +163,17 @@
                           }
 
                           const release = releases[index];
-                          var queryImage = `https://cors-anywhere.herokuapp.com/http://coverartarchive.org/release/${release.id}`;
+                          var queryImage = `http://coverartarchive.org/release/${release.id}`;
                           console.log('It made it..');
                           var releaseID = release.id;
                           localStorage.setItem('ArtistID', releaseID);
 
-                          fetch(queryImage, {
-                              method: 'GET',
-                              headers: {
-                                  'Origin': window.location.origin,
-                                  'X-Requested-With': 'XMLHttpRequest'
-                              }
-                          })
+                          fetch(queryImage)
                           .then(responseImage => responseImage.json())
                           .then(imageData => {
                               if (imageData.images && imageData.images.length > 0) {
                                   var imageReference = imageData.images[0].thumbnails.small;
-                                  fetch(`https://cors-anywhere.herokuapp.com/${imageReference}`, {
-                                      method: 'GET',
-                                      headers: {
-                                          'Origin': window.location.origin,
-                                          'X-Requested-With': 'XMLHttpRequest'
-                                      }
-                                  })
-                                  .then(response => response.blob())
-                                  .then(blob => {
-                                      var objectURL = URL.createObjectURL(blob);
-                                      resultsDiv.innerHTML += `<img src="${objectURL}" alt="Album cover" align="center">`;
-                                  })
-                                  .catch(error => {
-                                      console.error('Error fetching image blob:', error);
-                                  });
+                                  resultsDiv.innerHTML += `<img src="${imageReference}" alt="Album cover" align="center">`;
                               } else {
                                   console.log(`No image found for release ID: ${release.id}, checking next release...`);
                                   processRelease(index + 1); // Check the next release
